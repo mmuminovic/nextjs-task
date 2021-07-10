@@ -26,3 +26,5 @@ export const findServer = async (servers: ServerListItemModel[]) => {
   const onlineServers = res.filter((e) => e !== null);
   return onlineServers;
 };
+
+module.exports = { findServer, checkUrlExists };
