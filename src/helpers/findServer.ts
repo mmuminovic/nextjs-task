@@ -1,5 +1,5 @@
 import axios from "axios";
-import servers from "../servers.json";
+import { ServerListItemModel } from "../typings/server.model";
 
 const checkUrlExists = async (url: string) => {
   try {
@@ -15,11 +15,16 @@ const checkUrlExists = async (url: string) => {
   }
 };
 
-export const findServer = async () => {
+const findServer = async (servers: ServerListItemModel[]) => {
   const checkServers = servers
-    .sort((a, b) => a.priority - b.priority)
-    .map((server) => checkUrlExists(server.url));
+    .sort(
+      (a: ServerListItemModel, b: ServerListItemModel) =>
+        a.priority - b.priority
+    )
+    .map((server: ServerListItemModel) => checkUrlExists(server.url));
   const res = await Promise.all(checkServers);
   const onlineServers = res.filter((e) => e !== null);
   return onlineServers;
 };
+
+module.exports = { findServer, checkUrlExists };
